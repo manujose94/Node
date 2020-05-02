@@ -1,0 +1,21 @@
+{
+  "name": "servertcp-clientstcp-node-python",
+  "version": "1.0.0",
+  "description": "example tcp",
+  "main": "tcpserver.js",
+  "scripts": {
+    "start": "node tcpserver.js",
+    "start:client": "node -r dotenv/config tcpclient.js",
+    "start:client:py": "python3 tcp-client.py -r rb1_base2  -p 3000 -u 'c4bf3a7a-f7d3-480d-af51-d8f19c886534'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "manu",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "find-free-port": "^2.0.0",
+    "net": "^1.0.2"
+  },
+  "devDependencies": {}
+}
