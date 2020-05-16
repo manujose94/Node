@@ -9,6 +9,7 @@ let freePort;
 let server;
 let socketsClient = []; 
 let serverAddress;
+
 /* -------------------------------------------------------------------------- */
 /*                              Example Test TCP
 /*                            1. Create server
@@ -20,15 +21,14 @@ let serverAddress;
 async function InitServer() {
  
     freePort =  await fp(3000,3100);
-    process.env.PORT = [0]
     let serverAddress = await createServer(freePort[0],"localhost")
     console.log('Server listening on %j', serverAddress)
 
     try{
 
-        let result = await waitEventClientData(eventEmitter,32000)
+        let result = await waitEventClientData(eventEmitter,4000)
         console.log("[RESULT]".blue,result);
-
+        //idsocket is a id of client socket
         if(result.hasOwnProperty('idsocket')){
             result_w = await writeClient(socketsClient.find(o => o.id === result.idsocket).socket);
             result = await waitEventClientData(eventEmitter,12000)
@@ -36,8 +36,7 @@ async function InitServer() {
         }else console.log("[FINISH]");
 
     }catch(error) {
-        if(error.message.hasOwnProperty("type")) console.warn("[TIMEOUT]".red,error.message.type)
-        else console.warn("error",error.message)
+        console.warn("error",error.message)
     }
 
     
@@ -69,20 +68,19 @@ async function InitServer() {
  async function handleConnection(socket){
     let id = socket.remoteAddress + ':' + socket.remotePort;
     console.log("[New Client connection]".green,id);            
-
     socketsClient.push({socket: socket, id: id}); 
     socket.on('data', function (data) {
         let msg={};
         if(typeof data ==='object' ){
-            try{
-                msg = JSON.parse(data);
-            }catch( e){
-                if (e instanceof SyntaxError){
-                    msg["message"]=data.toString();
-                    msg["succes"]=true;
-                }else console.error(e);
+        try{
+            msg = JSON.parse(data);
+        }catch( e){
+            if (e instanceof SyntaxError){
+                msg["message"]=data.toString();
+                msg["succes"]=true;
+            }else console.error(e);
 
-            }
+        }
             console.log("[CLIENTE MSG]".blue,msg)
             //Find client stiored on Array
             let picked = socketsClient.find(o => o.id === socket.remoteAddress + ':' + socket.remotePort);
@@ -99,6 +97,8 @@ async function InitServer() {
     })
     socket.on('end', function() {
         console.log('[Client disconnected]'.red,id);
+        //Deñete client disconnected from array
+        socketsClient.filter(function(el) { return el.id != id; }); 
     });
 
  }
@@ -131,7 +131,7 @@ async function InitServer() {
        });
 
         timer = setTimeout(function() {
-        reject(new Error({type:"Timout wait cliente reply"}));
+        reject(new Error("Timout wait cliente reply"));
     }, t);
 
     });
@@ -141,3 +141,4 @@ async function InitServer() {
 
  InitServer()
 //npm start
+
