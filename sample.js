@@ -29,11 +29,11 @@ async function commandSequence() {
 /** Another option **/
 
 /**var exec = require('ssh-exec')
-var v_host = '158.42.163.97'
+var v_host = '192.168.1.1'
 var con =exec('ls -lh', {
-  user: 'hub4manuval-server',
-  host: '158.42.163.97',  
-  password: '1gn1t10n' 
+  user: 'user',
+  host: '192.168.1.1',  
+  password: '*****' 
 })
 
 con.pipe(process.stdout , function (err, data) {
