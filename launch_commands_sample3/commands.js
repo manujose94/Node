@@ -30,9 +30,9 @@ var config_machine= (user,host, password) =>{
   * ?  [2] LAUNCH COMMAND VIA SSH **/
  
  /**var server_linux =  {
-    user: 'hub4manuval-server',
-    host: '158.42.163.97',
-    password: '1gn1t10n'
+    user: 'hub4manuval',
+    host: '192.168.1.97',
+    password: 'paas'
  };**/
  const rexec_ssh = require('ssh-exec');
  /**{
